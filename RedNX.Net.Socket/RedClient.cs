@@ -115,7 +115,7 @@ namespace RedNX.Net.Socket {
          * Client -> Server: [11] = Patch version(0-255)
          *
          * Client <- Server: [0] = 0x06 ACK or 0x15 NAK
-         * Client <- Server: [1] = Bool options by bit. { [0] = NoDelay, [1] = UseEncryption, [2, 3, 4, 5, 6, 7] = Unused }
+         * Client <- Server: [1] = Boolean options by bit. { [0] = NoDelay, [1] = UseEncryption, [2, 3, 4, 5, 6, 7] = Unused }
          *
          * Client -> Server: [0] = 0x06 ACK or 0x15 NAK
          *

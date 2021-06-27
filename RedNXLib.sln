@@ -7,11 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.IO", "RedNX.IO\RedNX.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.Config", "RedNX.Config\RedNX.Config.csproj", "{272F0B5B-24BE-41B6-93E9-7F411293A34D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedNX.Net", "RedNX.Net\RedNX.Net.csproj", "{5E3F2004-7CD6-4EB5-A229-B9422301B4BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.Net", "RedNX.Net\RedNX.Net.csproj", "{5E3F2004-7CD6-4EB5-A229-B9422301B4BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedNX.Net.Protocol", "RedNX.Net.Protocol\RedNX.Net.Protocol.csproj", "{BB21C092-8BD3-4392-AA2A-13E15E085BF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.Net.Protocol", "RedNX.Net.Protocol\RedNX.Net.Protocol.csproj", "{BB21C092-8BD3-4392-AA2A-13E15E085BF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedNX.Net.Socket", "RedNX.Net.Socket\RedNX.Net.Socket.csproj", "{63C66D5B-93E0-4146-A0D6-66D018AEF0BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.Net.Socket", "RedNX.Net.Socket\RedNX.Net.Socket.csproj", "{63C66D5B-93E0-4146-A0D6-66D018AEF0BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.Application", "RedNX.Application\RedNX.Application.csproj", "{7C24EF21-F37C-4C97-AA53-FA7AE7F427B7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.Process", "RedNX.Process\RedNX.Process.csproj", "{337F29ED-3E10-4892-952D-2731DEBB11EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedNx.Test", "RedNx.Test\RedNx.Test.csproj", "{6331406F-112C-46EE-B874-3D257656E3BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,18 @@ Global
 		{63C66D5B-93E0-4146-A0D6-66D018AEF0BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63C66D5B-93E0-4146-A0D6-66D018AEF0BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63C66D5B-93E0-4146-A0D6-66D018AEF0BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C24EF21-F37C-4C97-AA53-FA7AE7F427B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C24EF21-F37C-4C97-AA53-FA7AE7F427B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C24EF21-F37C-4C97-AA53-FA7AE7F427B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C24EF21-F37C-4C97-AA53-FA7AE7F427B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{337F29ED-3E10-4892-952D-2731DEBB11EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{337F29ED-3E10-4892-952D-2731DEBB11EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{337F29ED-3E10-4892-952D-2731DEBB11EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{337F29ED-3E10-4892-952D-2731DEBB11EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6331406F-112C-46EE-B874-3D257656E3BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6331406F-112C-46EE-B874-3D257656E3BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6331406F-112C-46EE-B874-3D257656E3BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6331406F-112C-46EE-B874-3D257656E3BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
