@@ -1,12 +1,11 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace RedNX.Config {
     public static class ConfigManager {
 
-        private static readonly JsonSerializerOptions NormalOptions = new JsonSerializerOptions { WriteIndented = true };
+        private static readonly JsonSerializerOptions NormalOptions = new JsonSerializerOptions { WriteIndented = false };
         private static readonly JsonSerializerOptions IndentedOptions = new JsonSerializerOptions { WriteIndented = true };
 
         #region Save
