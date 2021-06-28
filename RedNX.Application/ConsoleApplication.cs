@@ -21,7 +21,7 @@ namespace RedNX.Application {
                 var task = AsyncRun();
                 task.Wait();
             } catch (AggregateException ex) {
-                if(ex.InnerException != null) ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
+                if (ex.InnerException != null) ExceptionDispatchInfo.Capture(ex.InnerException).Throw();
             }
         }
 

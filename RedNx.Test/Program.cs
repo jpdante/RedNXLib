@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using RedNX.Application;
+using RedNX.Net;
 
 namespace RedNx.Test {
     public class Program : ConsoleApplication {
@@ -13,7 +15,9 @@ namespace RedNx.Test {
         }
 
         protected override async Task OnStart() {
-
+            var rest = new RedJsonRest("https://www.dnd5eapi.co/api/");
+            var response = await rest.Get("classes");
+            Console.WriteLine(response.RootElement.ToString());
         }
 
         protected override Task OnExit() {

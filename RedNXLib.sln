@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.Application", "RedNX.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.Process", "RedNX.Process\RedNX.Process.csproj", "{337F29ED-3E10-4892-952D-2731DEBB11EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedNx.Test", "RedNx.Test\RedNx.Test.csproj", "{6331406F-112C-46EE-B874-3D257656E3BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNx.Test", "RedNx.Test\RedNx.Test.csproj", "{6331406F-112C-46EE-B874-3D257656E3BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
