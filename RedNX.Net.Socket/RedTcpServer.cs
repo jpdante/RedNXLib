@@ -4,7 +4,7 @@ using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 
 namespace RedNX.Net.Socket {
-    public class RedServer {
+    public class RedTcpServer {
 
         private readonly System.Net.Sockets.Socket _socket;
         private readonly IPEndPoint _endPoint;
@@ -13,20 +13,20 @@ namespace RedNX.Net.Socket {
         private readonly int _backLog;
         private bool _isListening;
 
-        public delegate void NewClientHandler(object sender, RedClient client);
+        public delegate void NewClientHandler(object sender, RedTcpClient client);
         public event NewClientHandler NewClientConnected;
 
         public delegate void AuthorizesIPHandler(object sender, AuthorizesIPEventArgs e);
         public event AuthorizesIPHandler AuthorizesIP;
 
-        public RedServer(IPEndPoint address, int backLog = 1) {
+        public RedTcpServer(IPEndPoint address, int backLog = 1) {
             _socket = new System.Net.Sockets.Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _endPoint = address;
             _isEncrypted = false;
             _backLog = backLog;
         }
 
-        public RedServer(IPEndPoint address, X509Certificate serverCertificate, int backLog = 1) {
+        public RedTcpServer(IPEndPoint address, X509Certificate serverCertificate, int backLog = 1) {
             _socket = new System.Net.Sockets.Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _endPoint = address;
             _isEncrypted = true;
@@ -58,7 +58,7 @@ namespace RedNX.Net.Socket {
                     goto NextSocket;
                 }
                 clientSocket.NoDelay = true;
-                var redClient = new RedClient(clientSocket, _serverCertificate, _isEncrypted);
+                var redClient = new RedTcpClient(clientSocket, _serverCertificate, _isEncrypted);
                 await redClient.InitializeSocketAsServer();
                 if (redClient.SocketStatus == SocketStatus.Connected) {
                     NewClientConnected?.Invoke(this, redClient);

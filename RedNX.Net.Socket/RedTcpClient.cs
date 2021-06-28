@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using RedNX.Net.Socket.Internal;
 
 namespace RedNX.Net.Socket {
-    public class RedClient : IDisposable {
+    public class RedTcpClient : IDisposable {
 
         private System.Net.Sockets.Socket _socket;
         private NetworkStream _networkStream;
@@ -28,14 +28,14 @@ namespace RedNX.Net.Socket {
         public bool IsConnected => !((_socket.Poll(1000, SelectMode.SelectRead) && (_socket.Available == 0)) || !_socket.Connected);
         public EndPoint RemoteEndPoint => _socket.RemoteEndPoint;
 
-        public RedClient(string targetHost = null, bool checkCertificateRevocation = true) {
+        public RedTcpClient(string targetHost = null, bool checkCertificateRevocation = true) {
             _connectDone = new ManualResetEventAsync(false);
             _targetHost = targetHost;
             _checkCertificateRevocation = checkCertificateRevocation;
             SocketStatus = SocketStatus.Disconnected;
         }
 
-        public RedClient(X509Certificate certificate, string targetHost = null, bool checkCertificateRevocation = true) {
+        public RedTcpClient(X509Certificate certificate, string targetHost = null, bool checkCertificateRevocation = true) {
             _certificate = certificate;
             _targetHost = targetHost;
             _connectDone = new ManualResetEventAsync(false);
@@ -43,7 +43,7 @@ namespace RedNX.Net.Socket {
             SocketStatus = SocketStatus.Disconnected;
         }
 
-        internal RedClient(System.Net.Sockets.Socket socket, X509Certificate serverCertificate, bool isEncrypted) {
+        internal RedTcpClient(System.Net.Sockets.Socket socket, X509Certificate serverCertificate, bool isEncrypted) {
             _socket = socket;
             _certificate = serverCertificate;
             _isEncrypted = isEncrypted;
