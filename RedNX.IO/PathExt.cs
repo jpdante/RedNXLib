@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using RedNX.System;
 
 namespace RedNX.IO {
     public static class PathExt {
@@ -13,16 +14,39 @@ namespace RedNX.IO {
         private static readonly string CachePath;
 
         static PathExt() {
-            TempPath = Environment.OSVersion.Platform == PlatformID.Unix ? Path.Combine("/", "tmp") : Path.Combine(Directory.GetCurrentDirectory(), "fs_str", "tmp");
-            ProgramDataPath = Environment.OSVersion.Platform == PlatformID.Unix ? Path.Combine("/", "var", "share") : Path.Combine(Directory.GetCurrentDirectory(), "fs_str", "var", "share");
-            LogPath = Environment.OSVersion.Platform == PlatformID.Unix ? Path.Combine("/", "var", "log") : Path.Combine(Directory.GetCurrentDirectory(), "fs_str", "var", "log");
-            ConfigPath = Environment.OSVersion.Platform == PlatformID.Unix ? Path.Combine("/", "etc") : Path.Combine(Directory.GetCurrentDirectory(), "fs_str", "etc");
-            LockFilePath = Environment.OSVersion.Platform == PlatformID.Unix ? Path.Combine("/", "var", "lock") : Path.Combine(Directory.GetCurrentDirectory(), "fs_str", "var", "lock");
-            CachePath = Environment.OSVersion.Platform == PlatformID.Unix ? Path.Combine("/", "var", "cache") : Path.Combine(Directory.GetCurrentDirectory(), "fs_str", "var", "cache");
-            EnsureFolders();
+            TempPath = RedEnvironment.OperatingSystem switch {
+                SystemOS.Unix => Path.Combine("/", "tmp"),
+                SystemOS.Windows => Path.GetTempPath(),
+                _ => Path.Combine(Directory.GetCurrentDirectory(), "vfs", "tmp")
+            };
+            ProgramDataPath = RedEnvironment.OperatingSystem switch {
+                SystemOS.Unix => Path.Combine("/", "var", "share"),
+                SystemOS.Windows => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                _ => Path.Combine(Directory.GetCurrentDirectory(), "vfs", "var", "share")
+            };
+            LogPath = RedEnvironment.OperatingSystem switch {
+                SystemOS.Unix => Path.Combine("/", "var", "log"),
+                SystemOS.Windows => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                _ => Path.Combine(Directory.GetCurrentDirectory(), "vfs", "var", "log")
+            };
+            ConfigPath = RedEnvironment.OperatingSystem switch {
+                SystemOS.Unix => Path.Combine("/", "etc"),
+                SystemOS.Windows => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                _ => Path.Combine(Directory.GetCurrentDirectory(), "vfs", "etc")
+            };
+            LockFilePath = RedEnvironment.OperatingSystem switch {
+                SystemOS.Unix => Path.Combine("/", "var", "lock"),
+                SystemOS.Windows => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                _ => Path.Combine(Directory.GetCurrentDirectory(), "vfs", "var", "lock")
+            };
+            CachePath = RedEnvironment.OperatingSystem switch {
+                SystemOS.Unix => Path.Combine("/", "var", "cache"),
+                SystemOS.Windows => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                _ => Path.Combine(Directory.GetCurrentDirectory(), "vfs", "var", "cache")
+            };
         }
 
-        private static void EnsureFolders() {
+        public static void EnsureFolders() {
             if (!Directory.Exists(TempPath)) Directory.CreateDirectory(TempPath);
             if (!Directory.Exists(ProgramDataPath)) Directory.CreateDirectory(ProgramDataPath);
             if (!Directory.Exists(LogPath)) Directory.CreateDirectory(LogPath);
