@@ -128,7 +128,6 @@ namespace RedNX.Net {
 
         #endregion
 
-
         #region TRACE
 
         public Task<T> Trace<T>(string path, object obj) => Custom<T>(path, obj, "TRACE");
@@ -140,7 +139,6 @@ namespace RedNX.Net {
         public Task<JsonDocument> Trace(string path, Stream stream = null, string contentType = "application/octet-stream") => Custom(path, "TRACE", stream, contentType);
 
         #endregion
-
 
         #region PATCH
 
@@ -189,16 +187,6 @@ namespace RedNX.Net {
         }
 
         #endregion
-
-        /*private async Task<WebResponse> Request(Uri uri, string method, Func<Stream, Task> onRequest = null) {
-            var request = WebRequest.CreateHttp(uri);
-            request.Method = method;
-            if (onRequest != null) {
-                var requestStream = await request.GetRequestStreamAsync();
-                await onRequest.Invoke(requestStream);
-            }
-            return await request.GetResponseAsync();
-        }*/
 
         private async Task<Stream> RequestStream(Uri uri, string method, Func<Stream, Task> onRequest = null, string contentType = null) {
             var request = WebRequest.CreateHttp(uri);
