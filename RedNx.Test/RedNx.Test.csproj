@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,8 +7,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RedNX.Application\RedNX.Application.csproj" />
+    <ProjectReference Include="..\RedNX.Config\RedNX.Config.csproj" />
+    <ProjectReference Include="..\RedNX.IO\RedNX.IO.csproj" />
+    <ProjectReference Include="..\RedNX.Net.Protocol\RedNX.Net.Protocol.csproj" />
+    <ProjectReference Include="..\RedNX.Net.Socket\RedNX.Net.Socket.csproj" />
     <ProjectReference Include="..\RedNX.Net\RedNX.Net.csproj" />
     <ProjectReference Include="..\RedNX.Process\RedNX.Process.csproj" />
+    <ProjectReference Include="..\RedNX.System\RedNX.System.csproj" />
   </ItemGroup>
 
 </Project>

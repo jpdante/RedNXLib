@@ -37,7 +37,7 @@ namespace RedNX.Application {
             e.Cancel = true;
         }
 
-        public void Stop() {
+        protected void Stop() {
             _shutdownEvent.Set();
         }
 
