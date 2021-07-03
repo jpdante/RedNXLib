@@ -3,10 +3,14 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RedNX.Application\RedNX.Application.csproj" />
+    <ProjectReference Include="..\RedNX.Collections\RedNX.Collections.csproj" />
     <ProjectReference Include="..\RedNX.Config\RedNX.Config.csproj" />
     <ProjectReference Include="..\RedNX.IO\RedNX.IO.csproj" />
     <ProjectReference Include="..\RedNX.Net.Protocol\RedNX.Net.Protocol.csproj" />
