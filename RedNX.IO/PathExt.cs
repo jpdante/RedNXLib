@@ -16,31 +16,37 @@ namespace RedNX.IO {
         static PathExt() {
             TempPath = RedEnvironment.OperatingSystem switch {
                 SystemOS.Unix => Path.Combine("/", "tmp"),
+                SystemOS.MacOSX => Path.Combine("/", "tmp"),
                 SystemOS.Windows => Path.GetTempPath(),
                 _ => Path.Combine(Directory.GetCurrentDirectory(), "vfs", "tmp")
             };
             ProgramDataPath = RedEnvironment.OperatingSystem switch {
-                SystemOS.Unix => Path.Combine("/", "var", "share"),
+                SystemOS.Unix => Path.Combine("/", "var", "lib"),
+                SystemOS.MacOSX => Path.Combine("/", "Library", "Application Support"),
                 SystemOS.Windows => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 _ => Path.Combine(Directory.GetCurrentDirectory(), "vfs", "var", "share")
             };
             LogPath = RedEnvironment.OperatingSystem switch {
                 SystemOS.Unix => Path.Combine("/", "var", "log"),
+                SystemOS.MacOSX => Path.Combine("/", "tmp"),
                 SystemOS.Windows => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 _ => Path.Combine(Directory.GetCurrentDirectory(), "vfs", "var", "log")
             };
             ConfigPath = RedEnvironment.OperatingSystem switch {
                 SystemOS.Unix => Path.Combine("/", "etc"),
+                SystemOS.MacOSX => Path.Combine("/", "Library", "Preferences"),
                 SystemOS.Windows => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 _ => Path.Combine(Directory.GetCurrentDirectory(), "vfs", "etc")
             };
             LockFilePath = RedEnvironment.OperatingSystem switch {
                 SystemOS.Unix => Path.Combine("/", "var", "lock"),
+                SystemOS.MacOSX => Path.Combine("/", "Library", "Application Support"),
                 SystemOS.Windows => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 _ => Path.Combine(Directory.GetCurrentDirectory(), "vfs", "var", "lock")
             };
             CachePath = RedEnvironment.OperatingSystem switch {
                 SystemOS.Unix => Path.Combine("/", "var", "cache"),
+                SystemOS.MacOSX => Path.Combine("/", "Library", "Caches"),
                 SystemOS.Windows => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 _ => Path.Combine(Directory.GetCurrentDirectory(), "vfs", "var", "cache")
             };
