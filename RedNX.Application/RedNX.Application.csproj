@@ -5,4 +5,8 @@
     <Platforms>x64</Platforms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RedNX.System\RedNX.System.csproj" />
+  </ItemGroup>
+
 </Project>
