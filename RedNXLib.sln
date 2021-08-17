@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNx.Test", "RedNx.Test\Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.System", "RedNX.System\RedNX.System.csproj", "{A72DE44B-A1ED-43B3-8B7F-74C9E45D9663}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedNX.Collections", "RedNX.Collections\RedNX.Collections.csproj", "{A7BBF25D-046D-4665-9B39-215A6EBFC48F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.Collections", "RedNX.Collections\RedNX.Collections.csproj", "{A7BBF25D-046D-4665-9B39-215A6EBFC48F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedNX.Logging", "RedNX.Logging\RedNX.Logging.csproj", "{1443EF08-307E-4ECB-A71F-4938870AF204}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,9 @@ Global
 		{A7BBF25D-046D-4665-9B39-215A6EBFC48F}.Debug|x64.ActiveCfg = Debug|x64
 		{A7BBF25D-046D-4665-9B39-215A6EBFC48F}.Debug|x64.Build.0 = Debug|x64
 		{A7BBF25D-046D-4665-9B39-215A6EBFC48F}.Release|x64.ActiveCfg = Release|x64
+		{1443EF08-307E-4ECB-A71F-4938870AF204}.Debug|x64.ActiveCfg = Debug|x64
+		{1443EF08-307E-4ECB-A71F-4938870AF204}.Debug|x64.Build.0 = Debug|x64
+		{1443EF08-307E-4ECB-A71F-4938870AF204}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
