@@ -10,7 +10,7 @@ namespace RedNX.Logging.Appenders {
             _appenders = new List<IAppender>();
         }
 
-        public void Log(ILogger logger, LogLevel logLevel, string msg, params object[] objs) {
+        public void Log(ILogger logger, LogLevel logLevel, object msg, params object[] objs) {
             foreach (var appender in _appenders) {
                 try {
                     appender.Log(logger, logLevel, msg, objs);
@@ -20,7 +20,7 @@ namespace RedNX.Logging.Appenders {
             }
         }
 
-        public void Log(ILogger logger, LogLevel logLevel, string msg, Exception ex, params object[] objs) {
+        public void Log(ILogger logger, LogLevel logLevel, object msg, Exception ex, params object[] objs) {
             foreach (var appender in _appenders) {
                 try {
                     appender.Log(logger, logLevel, msg, ex, objs);

@@ -5,8 +5,8 @@ namespace RedNX.Logging {
 
         public Type Type { get; }
 
-        void Log(LogLevel logLevel, string msg, params object[] objs);
-        void Log(LogLevel logLevel, string msg, Exception ex, params object[] objs);
+        void Log(LogLevel logLevel, object msg, params object[] objs);
+        void Log(LogLevel logLevel, object msg, Exception ex, params object[] objs);
         bool IsEnabled(LogLevel logLevel);
 
     }
