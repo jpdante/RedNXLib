@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,9 +50,15 @@ namespace RedNx.Test {
             await Client.Stream.FlushAsync();
             Console.WriteLine("[Client] Data sent!");
 
-            var data = await _serializer.Deserialize<TestClass>(TempClient.Stream);
-            Console.WriteLine(data.Test0);
-
+            try {
+                var data = await _serializer.Deserialize<TestClass>(TempClient.Stream);
+                foreach (string a in data.Test1.Test1) {
+                    Console.WriteLine(a);   
+                }
+            } catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
         }
 
         private void ServerOnAuthorizesIP(object sender, AuthorizesIPEventArgs e) {

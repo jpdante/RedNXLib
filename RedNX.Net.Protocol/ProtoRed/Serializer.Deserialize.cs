@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace RedNX.Net.Protocol.ProtoRed {
     partial class Serializer {
@@ -51,19 +50,38 @@ namespace RedNX.Net.Protocol.ProtoRed {
                 object[] attrs = prop.GetCustomAttributes(true);
                 foreach (object attr in attrs) {
                     if (attr is not ProtoField protoField) continue;
-                    typeDictionary.Add( protoField.Index, new Tuple<Type, PropertyInfo>(prop.PropertyType, prop));
+                    var propertyType = prop.PropertyType.IsArray ? prop.PropertyType.GetElementType() : prop.PropertyType;
+                    typeDictionary.Add( protoField.Index, new Tuple<Type, PropertyInfo>(propertyType, prop));
                 }
             }
             object classInstance = Activator.CreateInstance(type);
             while (!cancellation.IsCancellationRequested) {
                 ushort fieldIndex = binaryReader.ReadUInt16();
+                // Finished reading parameters
                 if (fieldIndex == ushort.MaxValue) return classInstance;
+
+                byte fieldType = binaryReader.ReadByte();
                 var (propertyType, propertyInfo) = typeDictionary[fieldIndex];
-                if (propertyType.IsClass) {
-                    propertyInfo.SetValue(classInstance, await DeserializeClass(propertyType, binaryReader, cancellation));
+
+                Func<BinaryReader, Task<object>> fieldDeserializer;
+
+                if (_typeDeserializerDictionary.ContainsKey(propertyType)) {
+                    fieldDeserializer = _typeDeserializerDictionary[propertyType];
                 } else {
-                    propertyInfo.SetValue(classInstance, await _typeDeserializerDictionary[propertyType](binaryReader));
+                    uint classId = binaryReader.ReadUInt32();
+                    if (!_typeDictionary.Forward.TryGetValue(classId, out var classType)) {
+                        throw new KeyNotFoundException($"Class id '{classId}' not found.");
+                    }
+                    fieldDeserializer = (reader) => DeserializeClass(classType, reader, cancellation);
                 }
+
+                object data = null;
+                if (fieldType == 0x1) {
+                    data = await DeserializeArray(propertyType, binaryReader, fieldDeserializer);
+                } else {
+                    data = await fieldDeserializer(binaryReader);
+                }
+                propertyInfo.SetValue(classInstance, data);
             }
             return classInstance;
         }
@@ -124,6 +142,15 @@ namespace RedNX.Net.Protocol.ProtoRed {
             int length = binaryReader.ReadInt32();
             byte[] buffer = binaryReader.ReadBytes(length);
             return Task.FromResult((object) Encoding.UTF8.GetString(buffer, 0, length));
+        }
+
+        private static async Task<Array> DeserializeArray(Type type, BinaryReader binaryReader, Func<BinaryReader, Task<object>> fieldDeserializer) {
+            int count = binaryReader.ReadInt32();
+            var array = Array.CreateInstance(type, count);
+            for (var i = 0; i < count; i++) {
+                array.SetValue(await fieldDeserializer(binaryReader), i);
+            }
+            return array;
         }
     }
 }

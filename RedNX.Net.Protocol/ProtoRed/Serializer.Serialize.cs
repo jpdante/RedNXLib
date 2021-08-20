@@ -39,17 +39,34 @@ namespace RedNX.Net.Protocol.ProtoRed {
             await SerializeClass(obj, binaryWriter);
         }
 
-        private async Task SerializeField(object obj, ushort index, PropertyInfo propertyInfo, BinaryWriter binaryWriter) {
-            /*if (propertyInfo.PropertyType.IsArray) {
-                binaryWriter.Write(index);
+        private async Task SerializeClass(object obj, BinaryWriter binaryWriter) {
+            if (!_typeDictionary.Reverse.TryGetValue(obj.GetType(), out uint classId)) {
+                throw new KeyNotFoundException($"Type '{obj.GetType().FullName}' not found.");
+            }
+            binaryWriter.Write(classId);
+            PropertyInfo[] props = obj.GetType().GetProperties();
+            foreach (var prop in props) {
+                object[] attrs = prop.GetCustomAttributes(true);
+                foreach (object attr in attrs) {
+                    if (attr is not ProtoField protoField) continue;
+                    await SerializeField(obj, protoField.Index, prop, binaryWriter);
+                }
+            }
+            binaryWriter.Write(ushort.MaxValue);
+        }
+
+        private async Task SerializeField(object obj, ushort fieldIndex, PropertyInfo propertyInfo, BinaryWriter binaryWriter) {
+            binaryWriter.Write(fieldIndex);
+            if (propertyInfo.PropertyType.IsArray) {
+                binaryWriter.Write((byte) 0x1);
                 await SerializeArray((object[]) propertyInfo.GetValue(obj), binaryWriter);
-            } else {*/
+            } else {
                 if (!_typeSerializerDictionary.TryGetValue(propertyInfo.PropertyType, out Func<object, BinaryWriter, Task> func)) {
                     throw new KeyNotFoundException($"Type '{propertyInfo.PropertyType.FullName}' not registered.");
                 }
-                binaryWriter.Write(index);
+                binaryWriter.Write((byte) 0x0);
                 await func(propertyInfo.GetValue(obj), binaryWriter);
-            //}
+            }
         }
 
         public Func<object, BinaryWriter, Task> GetSerializationFunc(object obj) {
@@ -131,28 +148,11 @@ namespace RedNX.Net.Protocol.ProtoRed {
             return Task.CompletedTask;
         }
 
-        /*private async Task SerializeArray(object[] obj, BinaryWriter binaryWriter) {
-            binaryWriter.Write(obj.Length);
+        private async Task SerializeArray(IReadOnlyCollection<object> obj, BinaryWriter binaryWriter) {
+            binaryWriter.Write(obj.Count);
             foreach (object row in obj) {
                 await GetSerializationFunc(row)(row, binaryWriter);
             }
-        }*/
-
-        private async Task SerializeClass(object obj, BinaryWriter binaryWriter) {
-            if (!_typeDictionary.Reverse.TryGetValue(obj.GetType(), out uint classId)) {
-                throw new KeyNotFoundException($"Type '{obj.GetType().FullName}' not found.");
-            }
-            binaryWriter.Write(classId);
-            PropertyInfo[] props = obj.GetType().GetProperties();
-            foreach (var prop in props) {
-                object[] attrs = prop.GetCustomAttributes(true);
-                foreach (object attr in attrs) {
-                    if (attr is not ProtoField protoField) continue;
-                    await SerializeField(obj, protoField.Index, prop, binaryWriter);
-                }
-            }
-            binaryWriter.Write(ushort.MaxValue);
         }
-
     }
 }
