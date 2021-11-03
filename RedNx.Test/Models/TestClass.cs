@@ -1,4 +1,5 @@
 ﻿using RedNX.Net.Protocol.ProtoRed;
+using RedNx.Test.Models;
 
 namespace RedNx.Test {
     public class TestClass {

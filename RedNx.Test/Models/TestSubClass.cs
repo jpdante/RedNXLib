@@ -1,6 +1,6 @@
 ﻿using RedNX.Net.Protocol.ProtoRed;
 
-namespace RedNx.Test {
+namespace RedNx.Test.Models {
     public class TestSubClass {
         
         [ProtoField(0)]
