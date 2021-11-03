@@ -31,7 +31,7 @@ namespace RedNX.Application {
             await OnExit();
         }
 
-        private void ConsoleOnCancelKeyPress(object? sender, ConsoleCancelEventArgs e) {
+        private void ConsoleOnCancelKeyPress(object sender, ConsoleCancelEventArgs e) {
             _shutdownEvent.Set();
             e.Cancel = true;
         }
