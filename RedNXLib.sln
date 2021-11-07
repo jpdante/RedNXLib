@@ -18,6 +18,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.Process", "RedNX.Process\RedNX.Process.csproj", "{337F29ED-3E10-4892-952D-2731DEBB11EC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNx.Test", "RedNx.Test\RedNx.Test.csproj", "{6331406F-112C-46EE-B874-3D257656E3BD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1443EF08-307E-4ECB-A71F-4938870AF204} = {1443EF08-307E-4ECB-A71F-4938870AF204}
+		{92A88088-7A6E-40BF-B2C8-C4501627D8BB} = {92A88088-7A6E-40BF-B2C8-C4501627D8BB}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.System", "RedNX.System\RedNX.System.csproj", "{A72DE44B-A1ED-43B3-8B7F-74C9E45D9663}"
 EndProject
@@ -26,6 +30,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.Logging", "RedNX.Logging\RedNX.Logging.csproj", "{1443EF08-307E-4ECB-A71F-4938870AF204}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.Caching", "RedNX.Caching\RedNX.Caching.csproj", "{CFCD9DD0-819F-423B-89D9-1BB6F8EB3145}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedNX.Extensions", "RedNX.Extensions\RedNX.Extensions.csproj", "{92A88088-7A6E-40BF-B2C8-C4501627D8BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,6 +125,12 @@ Global
 		{CFCD9DD0-819F-423B-89D9-1BB6F8EB3145}.Release|ARM64.ActiveCfg = Release|ARM64
 		{CFCD9DD0-819F-423B-89D9-1BB6F8EB3145}.Release|ARM64.Build.0 = Release|ARM64
 		{CFCD9DD0-819F-423B-89D9-1BB6F8EB3145}.Release|x64.ActiveCfg = Release|x64
+		{92A88088-7A6E-40BF-B2C8-C4501627D8BB}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{92A88088-7A6E-40BF-B2C8-C4501627D8BB}.Debug|ARM64.Build.0 = Debug|ARM64
+		{92A88088-7A6E-40BF-B2C8-C4501627D8BB}.Debug|x64.ActiveCfg = Debug|x64
+		{92A88088-7A6E-40BF-B2C8-C4501627D8BB}.Debug|x64.Build.0 = Debug|x64
+		{92A88088-7A6E-40BF-B2C8-C4501627D8BB}.Release|ARM64.ActiveCfg = Release|ARM64
+		{92A88088-7A6E-40BF-B2C8-C4501627D8BB}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

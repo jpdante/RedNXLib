@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RedNX.Application\RedNX.Application.csproj" />
+    <ProjectReference Include="..\RedNX.Caching\RedNX.Caching.csproj" />
     <ProjectReference Include="..\RedNX.Collections\RedNX.Collections.csproj" />
     <ProjectReference Include="..\RedNX.Config\RedNX.Config.csproj" />
     <ProjectReference Include="..\RedNX.IO\RedNX.IO.csproj" />

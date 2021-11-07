@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using RedNX.Application;
+using RedNx.Test.Tests;
 
 namespace RedNx.Test {
     public class Program : ConsoleApplication {
 
         public static void Main(string[] args) {
-            new Program().Run(args);
+            new TestFileCache().Run();
+            // new Program().Run(args);
         }
 
         protected override Task OnLoad() {
