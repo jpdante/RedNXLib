@@ -21,7 +21,7 @@ namespace RedNX.IO.Streams {
         }
 
         public override void SetLength(long value) {
-            throw new ReadOnlyStreamException("It is not possible to set a length for a write-only stream.");
+            throw new WriteOnlyStreamException("It is not possible to set a length for a write-only stream.");
         }
 
         public override void Write(byte[] buffer, int offset, int count) => _stream.Write(buffer, offset, count);
@@ -32,7 +32,7 @@ namespace RedNX.IO.Streams {
         public override long Length => _stream.Length;
         public override long Position {
             get => _stream.Position;
-            set => throw new ReadOnlyStreamException("It is not possible to set position to a write-only stream.");
+            set => throw new WriteOnlyStreamException("It is not possible to set position to a write-only stream.");
         }
     }
 }

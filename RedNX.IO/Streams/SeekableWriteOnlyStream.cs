@@ -19,7 +19,7 @@ namespace RedNX.IO.Streams {
         public override long Seek(long offset, SeekOrigin origin) => _stream.Seek(offset, origin);
 
         public override void SetLength(long value) {
-            throw new ReadOnlyStreamException("It is not possible to set a length for a read-only stream.");
+            throw new WriteOnlyStreamException("It is not possible to set a length for a read-only stream.");
         }
 
         public override void Write(byte[] buffer, int offset, int count) => _stream.Write(buffer, offset, count);
