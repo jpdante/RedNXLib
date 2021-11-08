@@ -101,19 +101,13 @@ namespace RedNX.Caching.Internal {
             return reader.HasRows;
         }
 
-        internal IReadOnlyList<string> GetLargestSize(long requiredSpace) {
+
+        internal void Clear() {
             using var conn = new SqliteConnection(_connectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT id, size FROM file_cache ORDER BY size DESC;";
-            long availableSpace = 0;
-            var entries = new List<string>();
-            using var reader = cmd.ExecuteReader();
-            while (requiredSpace > availableSpace && reader.Read()) {
-                entries.Add(reader.GetString(0));
-                availableSpace += reader.GetInt64(1);
-            }
-            return entries;
+            cmd.CommandText = "DELETE FROM file_cache;";
+            cmd.ExecuteNonQuery();
         }
 
         internal long SumSize() {
@@ -129,12 +123,64 @@ namespace RedNX.Caching.Internal {
             return sumSize;
         }
 
-        internal void Clear() {
+        internal IReadOnlyList<string> GetByRandom(long requiredSpace, bool desc = true) {
             using var conn = new SqliteConnection(_connectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
-            cmd.CommandText = "DELETE FROM file_cache;";
-            cmd.ExecuteNonQuery();
+            cmd.CommandText = "SELECT id, size FROM file_cache;";
+            long availableSpace = 0;
+            var entries = new List<string>();
+            using var reader = cmd.ExecuteReader();
+            while (requiredSpace > availableSpace && reader.Read()) {
+                entries.Add(reader.GetString(0));
+                availableSpace += reader.GetInt64(1);
+            }
+            return entries;
+        }
+
+        internal IReadOnlyList<string> GetBySize(long requiredSpace, bool desc = true) {
+            using var conn = new SqliteConnection(_connectionString);
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = $"SELECT id, size FROM file_cache ORDER BY size {(desc ? "DESC" : "ASC")};";
+            long availableSpace = 0;
+            var entries = new List<string>();
+            using var reader = cmd.ExecuteReader();
+            while (requiredSpace > availableSpace && reader.Read()) {
+                entries.Add(reader.GetString(0));
+                availableSpace += reader.GetInt64(1);
+            }
+            return entries;
+        }
+
+        internal IReadOnlyList<string> GetByCreationDate(long requiredSpace, bool desc = true) {
+            using var conn = new SqliteConnection(_connectionString);
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = $"SELECT id, size FROM file_cache ORDER BY creation_date {(desc ? "DESC" : "ASC")};";
+            long availableSpace = 0;
+            var entries = new List<string>();
+            using var reader = cmd.ExecuteReader();
+            while (requiredSpace > availableSpace && reader.Read()) {
+                entries.Add(reader.GetString(0));
+                availableSpace += reader.GetInt64(1);
+            }
+            return entries;
+        }
+
+        internal IReadOnlyList<string> GetByLastAccess(long requiredSpace, bool desc = true) {
+            using var conn = new SqliteConnection(_connectionString);
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = $"SELECT id, size FROM file_cache ORDER BY last_access {(desc ? "DESC" : "ASC")};";
+            long availableSpace = 0;
+            var entries = new List<string>();
+            using var reader = cmd.ExecuteReader();
+            while (requiredSpace > availableSpace && reader.Read()) {
+                entries.Add(reader.GetString(0));
+                availableSpace += reader.GetInt64(1);
+            }
+            return entries;
         }
     }
 }

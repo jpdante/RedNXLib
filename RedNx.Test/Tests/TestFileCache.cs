@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using RedNX.Application;
 using RedNX.Caching;
@@ -19,9 +18,10 @@ namespace RedNx.Test.Tests {
             var config = new FileCacheConfig {
                 CachePath = Path.Combine(path, "files"),
                 DatabaseFileName = Path.Combine(path, "caching.db"),
-                MaxAvailableSpace = 30 * 1024 * 1024,
+                MaxAvailableSpace = 512 * 1024 * 1024,
                 RemoveMissingFilesAtInit = true,
-                DeleteUnknownFilesAtInit = true
+                DeleteUnknownFilesAtInit = true,
+                ReleaseIfFullAtInit = true
             };
             _fileCache = new FileCache(config);
             return Task.CompletedTask;
@@ -52,7 +52,7 @@ namespace RedNx.Test.Tests {
                         file = file.Replace("\"", "");
                         if (string.IsNullOrEmpty(file)) continue;
                         using var fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
-                        Console.WriteLine(_fileCache.AddFile(id, 2, WritableCacheStream => {
+                        Console.WriteLine(_fileCache.AddFile(id, fileStream.Length, WritableCacheStream => {
                             fileStream.CopyToAsync(WritableCacheStream);
                         }) ? $"{id} added." : $"Failed to add {id}.");
                         break;
@@ -81,7 +81,7 @@ namespace RedNx.Test.Tests {
                         break;
                     case "5":
                         //_fileCache.RequestSpaceRelease( 0 * 1024 * 1024, ReleaseMode.LargestSize);
-                        _fileCache.RequestSpaceRelease(1, ReleaseMode.LargestSize);
+                        _fileCache.RequestSpaceRelease(32 * 1024 * 1024, ReleaseMode.OldestCreationDate);
                         break;
                     case "6":
                         Console.WriteLine("Cleaning...");

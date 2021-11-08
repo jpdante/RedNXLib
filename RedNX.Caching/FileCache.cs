@@ -40,7 +40,7 @@ namespace RedNX.Caching {
             IReadOnlyCollection<FileEntry>? entries = null;
             if (_deleteUnknownFilesAtInit) {
                 entries = _cachingDatabase.GetEntries();
-                var entriesSet = entries.Select(e => e.Id).ToHashSet();
+                var entriesSet = entries.Select(e => e.FileName).ToHashSet();
                 var files = Directory.GetFiles(_cachePath, "*.cache", SearchOption.TopDirectoryOnly);
                 foreach (var file in files) {
                     var pureFileName = Path.GetFileNameWithoutExtension(file);
@@ -74,30 +74,37 @@ namespace RedNX.Caching {
         public bool RequestSpaceRelease(long releaseSize, ReleaseMode releaseMode) {
             if (releaseSize < 1) throw new ArgumentOutOfRangeException(nameof(releaseSize), "Cannot release lower than 1.");
             if (releaseSize > MaxAvailableSpace) throw new ArgumentOutOfRangeException(nameof(releaseSize), "Cannot release larger than max available space.");
+            IReadOnlyList<string>? entries;
             switch (releaseMode) {
                 case ReleaseMode.Random:
+                    entries = _cachingDatabase.GetByRandom(releaseSize);
                     break;
                 case ReleaseMode.LargestSize:
-                    var largestEntries = _cachingDatabase.GetLargestSize(releaseSize);
-                    foreach (var id in largestEntries) {
-                        var entry = _cachingDatabase.GetEntry(id);
-                        Console.WriteLine($"{id} - {entry.Size}");
-                    }
+                    entries = _cachingDatabase.GetBySize(releaseSize);
                     break;
                 case ReleaseMode.SmallestSize:
+                    entries = _cachingDatabase.GetBySize(releaseSize, false);
                     break;
                 case ReleaseMode.OldestCreationDate:
+                    entries = _cachingDatabase.GetByCreationDate(releaseSize, false);
                     break;
                 case ReleaseMode.NewestCreationDate:
+                    entries = _cachingDatabase.GetByCreationDate(releaseSize);
                     break;
                 case ReleaseMode.OldestAccessDate:
+                    entries = _cachingDatabase.GetByLastAccess(releaseSize, false);
                     break;
                 case ReleaseMode.NewestAccessDate:
+                    entries = _cachingDatabase.GetByLastAccess(releaseSize);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(releaseMode), releaseMode, null);
             }
-            return false;
+            var success = true;
+            foreach (var id in entries) {
+                if (!RemoveFile(id)) success = false;
+            }
+            return success;
         }
 
         public bool AddFile(string identifier, long size, Action<WritableCacheStream> streamCopyFunc) {
