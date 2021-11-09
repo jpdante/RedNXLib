@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using RedNX.Caching.Exceptions;
 using RedNX.Caching.Internal;
 using RedNX.IO.Streams;
@@ -196,6 +197,54 @@ namespace RedNX.Caching {
                     return true;
                 } catch (Exception ex) {
                     actionException = ex;
+                    return false;
+                }
+            } catch {
+                return false;
+            }
+        }
+
+        public bool GetFile(string identifier, Func<SeekableReadOnlyStream, Task> streamCopyFunc, out Exception? actionException) {
+            actionException = null;
+            if (!ContainsFile(identifier)) return false;
+
+            var fileEntry = _cachingDatabase.GetEntry(identifier);
+            if (fileEntry == null) return false;
+
+            var cachedFileName = $"{fileEntry.FileName}.cache";
+            var cachedFilePath = Path.GetFullPath(Path.Combine(_cachePath, cachedFileName));
+
+            try {
+                using var fileStream = new FileStream(cachedFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                _cachingDatabase.UpdateLastAcess(identifier, DateTime.UtcNow);
+                try {
+                    streamCopyFunc.Invoke(new SeekableReadOnlyStream(fileStream));
+                    return true;
+                } catch (Exception ex) {
+                    actionException = ex;
+                    return false;
+                }
+            } catch {
+                return false;
+            }
+        }
+
+        public async Task<bool> GetFileAsync(string identifier, Func<SeekableReadOnlyStream, Task> streamCopyFunc) {
+            if (!ContainsFile(identifier)) return false;
+
+            var fileEntry = _cachingDatabase.GetEntry(identifier);
+            if (fileEntry == null) return false;
+
+            var cachedFileName = $"{fileEntry.FileName}.cache";
+            var cachedFilePath = Path.GetFullPath(Path.Combine(_cachePath, cachedFileName));
+
+            try {
+                await using var fileStream = new FileStream(cachedFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                _cachingDatabase.UpdateLastAcess(identifier, DateTime.UtcNow);
+                try {
+                    await streamCopyFunc.Invoke(new SeekableReadOnlyStream(fileStream));
+                    return true;
+                } catch (Exception ex) {
                     return false;
                 }
             } catch {
